@@ -1,3 +1,5 @@
+import os
+
 from bs4 import BeautifulSoup
 import requests
 # import pandas as pd
@@ -56,7 +58,7 @@ scrape_site VARCHAR
 
 # All sport leagues from maxbet
 football_json = requests.get(MAXBET_FOOTBALL).json()
-engine = create_engine('postgresql://tranxeuh:3iaz_Ak52nNroSVDgJMUBl_rMfoI4dmk@mel.db.elephantsql.com/tranxeuh')
+engine = create_engine(os.getenv('DATABASE_URL'))
 
 now_dt = str(datetime.datetime.now())
 

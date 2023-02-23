@@ -1,5 +1,6 @@
 
 
-config.py
+services/scraper/config.py
 venv/
 secrets.py
+.env
