@@ -1,3 +1,12 @@
+--PINNBET
+CREATE TABLE pinnbet_raw (
+    created_at TIMESTAMP,
+	rec json
+);
+
+
+
+
 CREATE TABLE IF NOT EXISTS dim_football_append (
 league_id INT,
 league_code INT,
