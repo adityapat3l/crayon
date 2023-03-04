@@ -5,6 +5,13 @@ CREATE TABLE pinnbet_raw (
 );
 
 
+--MAXBET
+CREATE TABLE maxbet_raw (
+    created_at TIMESTAMP,
+	rec json
+);
+
+
 
 
 CREATE TABLE IF NOT EXISTS dim_football_append (
