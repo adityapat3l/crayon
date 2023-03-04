@@ -17,3 +17,18 @@ services:
       - FLASK_APP=project/__init__.py
       - FLASK_DEBUG=1
       - APP_SETTINGS=project.config.BaseConfig
+
+  development:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SSH_AUTH_SOCK=/ssh-agent
+    volumes:
+      - .:/app
+      - ~/.gitconfig:/etc/gitconfig
+      - ~/.ssh:/root/.ssh
+      - /run/host-serives/ssh-auth.sock:/ssh-agent
+    stdin_open: true
+    tty: true
+    entrypoint: /bin/bash

@@ -4,3 +4,8 @@ services/scraper/config.py
 venv/
 secrets.py
 .env
+
+
+target/
+dbt_packages/
+logs/
