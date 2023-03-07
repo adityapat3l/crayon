@@ -3,14 +3,12 @@ import requests
 import datetime
 from sqlalchemy import create_engine, text
 
-from urls import PINNBET_BASE_FOOTBALL_URL
+from .urls import PINNBET_BASE_FOOTBALL_URL
 import json
 
 
-engine = create_engine(os.getenv('DATABASE_URL'))
-now = datetime.datetime.now()
 DAYS = 14
-
+engine = create_engine(os.getenv('DATABASE_URL'))
 
 def make_url_to_request(base_url, days=90):
     """
@@ -24,7 +22,8 @@ def make_url_to_request(base_url, days=90):
     return base_url + str(add_days)
 
 
-def run():
+def run(engine=engine):
+    now = datetime.datetime.now()
     base_url = PINNBET_BASE_FOOTBALL_URL
     days = DAYS
     url = make_url_to_request(base_url, days=days)
@@ -36,4 +35,4 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    run(engine=engine)
