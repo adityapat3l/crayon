@@ -1,20 +1,30 @@
 
 version: 2
 
-models:
-  - name: my_first_dbt_model
-    description: "A starter dbt model"
-    columns:
-      - name: id
-        description: "The primary key for this table"
-        tests:
-          - unique
-          - not_null
 
-  - name: my_second_dbt_model
-    description: "A starter dbt model"
+sources:
+  - name: raw_scrapes
+    schema: public
+    description: Public Schema with raw data
+    tables:
+      - name: maxbet_raw
+        columns:
+          - name: created_at
+            description: Created Timestamp
+            tests:
+              - not_null
+      - name: pinnbet_raw
+        columns:
+          - name: created_at
+            description: Created Timestamp
+            tests:
+              - not_null
+
+models:
+  - name: flattened_maxbet
+    description: "Flattening odds, matches for Maxbet raw stream"
     columns:
-      - name: id
+      - name: unique_id
         description: "The primary key for this table"
         tests:
           - unique

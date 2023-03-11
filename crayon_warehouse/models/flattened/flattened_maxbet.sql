@@ -21,18 +21,20 @@ with subquery as (
     tips::json->>'tipType' as tip_type,
     tips::json->>'description' as tip_description,
     tips::json->>'value' as tip_value,
-    row_number() over (PARTITION BY (rec::json->>'betLeagueId')::INT,
+    row_number() over (PARTITION BY rec::json->>'betLeagueId',
                                     mat::json->>'id',
                                     odds::json->>'id',
                                     tips::json->>'tipTypeId'
                        ORDER BY created_at::DATE DESC
                     ) as rank
- from public.maxbet_raw as mr
+ from {{ source('raw_scrapes', 'maxbet_raw') }} as mr
  cross join json_array_elements(mr.rec->'matchList') as mat
  cross join json_array_elements(mat->'odBetPickGroups') as odds
  cross join json_array_elements(odds->'tipTypes') as tips
 )
 
 select
+    concat(match_id, '_', tip_id) as unique_id,
     *
 from subquery
+where rank = 1
