@@ -29,3 +29,12 @@ models:
         tests:
           - unique
           - not_null
+
+  - name: flattened_pinnbet
+    description: "Flattening odds, matches for Pinnbet raw stream"
+    columns:
+      - name: unique_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
