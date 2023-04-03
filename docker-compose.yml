@@ -5,8 +5,8 @@ x-airflow-common:
   # In order to add custom dependencies or upgrade provider packages you can use your extended image.
   # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
-  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.5.2}
-  # build: .
+#  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.5.2}
+  build: .
   environment:
     &airflow-common-env
     AIRFLOW__CORE__DAGS_FOLDER: ./dags
@@ -32,6 +32,8 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/crayon_warehouse:/dbt
+    - ~/.dbt/profiles.yml:/dbt/profiles.yml
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -43,10 +45,10 @@ x-airflow-common:
 services:
   crayon:
     build:
-      context: ./services/scraper
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/scraper/Dockerfile
     volumes:
-      - .:/app
+      - ./services/scraper:/app
       - ~/.gitconfig:/etc/gitconfig
       - ~/.ssh:/root/.ssh
       - ./services/scraper/notebooks:/app/notebooks
@@ -225,7 +227,7 @@ services:
         }
         airflow_version=$$(AIRFLOW__LOGGING__LOGGING_LEVEL=INFO && gosu airflow airflow version)
         airflow_version_comparable=$$(ver $${airflow_version})
-        min_airflow_version=2.2.0
+        min_airflow_version=2.4.2
         min_airflow_version_comparable=$$(ver $${min_airflow_version})
         if (( airflow_version_comparable < min_airflow_version_comparable )); then
           echo
