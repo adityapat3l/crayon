@@ -2,7 +2,7 @@ FROM --platform=linux/amd64 python:3.9
 
 # set working directory
 WORKDIR /usr/src/app
-ENV PYTHONPATH=/usr/src/app
+ENV PYTHONPATH=/usr/src/app:/usr/src/app/project
 
 RUN apt-get -y update
 RUN apt-get -y install git

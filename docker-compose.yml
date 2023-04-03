@@ -49,15 +49,27 @@ services:
       - .:/app
       - ~/.gitconfig:/etc/gitconfig
       - ~/.ssh:/root/.ssh
+      - ./services/scraper/notebooks:/app/notebooks
     ports:
       - '5000:5000'
+      - '8888:8888'
     env_file:
       - .env
     environment:
       - FLASK_APP=project/__init__.py
       - FLASK_DEBUG=1
-      - APP_SETTINGS=project.config.BaseConfig
+      - APP_SETTINGS=project.config.DevelopmentConfig
       - PYTHONBUFFERED=1
+
+  nginx:
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - crayon
 
   # development:
   #   build:

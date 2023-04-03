@@ -33,3 +33,11 @@ airflow tasks list tutorial
 # prints the hierarchy of tasks in the "tutorial" DAG
 airflow tasks list tutorial --tree
 ```
+
+
+## Jupyter
+
+```shell
+docker exec -it crayon-crayon-1 /bin/bash
+jupyter notebook --ip 0.0.0.0 --allow-root
+```

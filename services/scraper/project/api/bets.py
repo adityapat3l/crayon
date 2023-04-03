@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from project.models import pinnbet, maxbet
+from project.api import fetch_maxbet, fetch_pinnbet
 import logging
 
 bets_blueprint = Blueprint("bets", __name__, template_folder="./templates")
@@ -17,9 +17,9 @@ def run_scrapes():
     logging.info(str(website_name))
     
     if website_name == 'pinnbet':
-        pinnbet.run()
+        fetch_pinnbet.run()
     elif website_name == 'maxbet':
-        maxbet.run()
+        fetch_maxbet.run()
         
     return jsonify({"status": "success", "website": f"{website_name}"})
         

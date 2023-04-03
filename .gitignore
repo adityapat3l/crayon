@@ -4,7 +4,7 @@ services/scraper/config.py
 venv/
 secrets.py
 .env
-
+.idea/
 
 target/
 dbt_packages/
