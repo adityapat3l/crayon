@@ -17,19 +17,23 @@ with DAG(
         "retry_delay": timedelta(minutes=5)
     },
     description="Polls betting websites and flattens data",
-    schedule=timedelta(days=1),
+    schedule_interval='@hourly',
     start_date=datetime(2023, 3, 1),
     catchup=False,
     tags=["Extract-Load-Flatten"],
 ) as dag:
 
-    t1 = DummyOperator(
+    fetch = DummyOperator(
         task_id="fetch_data",
     )
 
-    t2 = BashOperator(
+    run_pipeline = BashOperator(
         task_id="run_pipeline_data",
         bash_command="cd /dbt && dbt run --models flattened --profiles-dir ."
     )
 
-    t1 >> t2
+    delete_old_data = DummyOperator(
+        task_id="delete_old_data",
+    )
+
+    fetch >> run_pipeline >> delete_old_data
