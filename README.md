@@ -3,12 +3,20 @@
 Webscraper for Pinnbet and Maxbet odds.
 DBT modelling
 
+# Setup
+
+1. Created `.env` file
+2. Create the following entries:
+    - AIRFLOW_UID
+    - DATABASE_URL
+3. Setup `~/.dbt/profiles.yml` folder with the correct credentials
+4. Run `export DBT_PROFILES_DIR=~/.dbt`
 
 # Run
 
 ```
 docker-compose -f docker-compose.yml up --build -d
-docker exec crayon_crayon_1 python -m project.models.maxbet
+docker exec crayon_crayon_1 python -m project.api.fetch_maxbet
 ```
 
 or hit endpoint

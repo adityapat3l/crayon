@@ -5,6 +5,7 @@ venv/
 secrets.py
 .env
 .idea/
+dbt-env
 
 target/
 dbt_packages/
