@@ -29,7 +29,7 @@ with DAG(
 
     run_pipeline = BashOperator(
         task_id="run_pipeline_data",
-        bash_command="cd /dbt && dbt run --models flattened --profiles-dir ."
+        bash_command="cd /dbt && dbt run --models flattened --profiles-dir /dbt/profiles"
     )
 
     delete_old_data = DummyOperator(
