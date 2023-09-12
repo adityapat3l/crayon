@@ -4,6 +4,7 @@ from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
+from etl.fetch_data import get_betting_data
 
 
 with DAG(
@@ -23,8 +24,9 @@ with DAG(
     tags=["Extract-Load-Flatten"],
 ) as dag:
 
-    fetch = DummyOperator(
+    fetch = PythonOperator(
         task_id="fetch_data",
+        python_callable=get_betting_data.run_request,
     )
 
     run_pipeline = BashOperator(
@@ -32,8 +34,4 @@ with DAG(
         bash_command="cd /dbt && dbt run --models flattened --profiles-dir /dbt/profiles"
     )
 
-    delete_old_data = DummyOperator(
-        task_id="delete_old_data",
-    )
-
-    fetch >> run_pipeline >> delete_old_data
+    fetch >> run_pipeline
