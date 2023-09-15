@@ -49,3 +49,28 @@ airflow tasks list tutorial --tree
 docker exec -it crayon-crayon-1 /bin/bash
 jupyter notebook --ip 0.0.0.0 --allow-root
 ```
+
+
+# AWS
+
+To give access to readonly on root
+```
+chmod +x ~/.ssh/crayon-dev.pem
+```
+
+To copy folder over over
+```
+scp -i ~/.ssh/crayon-dev.pem -r ~/.ssh/id_rsa_ec2.pub ec2-user@ec2-3-85-101-145.compute-1.amazonaws.com:~/.ssh/
+```
+
+
+SSH into instance
+```
+ssh -i ~/.ssh/crayon-dev.pem ec2-user@ec2-3-85-101-145.compute-1.amazonaws.com:~/.ssh/
+```
+
+
+```
+sudo systemctl start docker
+sudo chmod 777 /var/run/docker.sock
+```
